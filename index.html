@@ -658,34 +658,67 @@
             document.getElementById('loadingSection').style.display = 'block';
             document.getElementById('optionsSection').style.display = 'none';
 
-            // Simulate AI processing delay
-            setTimeout(() => {
-                displayDecoratedOptions();
-            }, 2500);
+            // Call Odoo backend to analyze venue with Claude API
+            fetch('/venue-decorator/analyze', {
+                method: 'POST',
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    image: uploadedImageData,
+                    mediaType: 'image/jpeg'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.data.options) {
+                    displayDecoratedOptions(data.data);
+                } else {
+                    console.error('Error:', data.error || 'Failed to generate options');
+                    showError('Failed to analyze venue. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error calling API:', error);
+                showError('Error analyzing venue: ' + error.message);
+            });
         }
 
-        function displayDecoratedOptions() {
+        function displayDecoratedOptions(decorationData) {
             document.getElementById('loadingSection').style.display = 'none';
             document.getElementById('optionsSection').style.display = 'block';
 
             const aiOptions = document.getElementById('aiOptions');
             aiOptions.innerHTML = '';
 
-            // Select 4 random images from gallery to represent decorated options
-            const shuffled = [...images].sort(() => 0.5 - Math.random());
-            const selectedImages = shuffled.slice(0, 4);
+            // Display AI-generated decoration options
+            if (decorationData && decorationData.options && decorationData.options.length > 0) {
+                decorationData.options.slice(0, 4).forEach((option, index) => {
+                    // Use sample image with AI-generated title
+                    const sampleImage = images[index % images.length];
 
-            selectedImages.forEach((image, index) => {
-                const option = document.createElement('div');
-                option.className = 'option-item';
-                option.innerHTML = `
-                    <img src="${image.file}" alt="Option ${index + 1}">
-                    <div class="checkmark">✓</div>
-                    <div class="option-label">Option ${index + 1}</div>
-                `;
-                option.onclick = () => selectOption(option, image);
-                aiOptions.appendChild(option);
-            });
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option-item';
+                    optionDiv.innerHTML = `
+                        <img src="${sampleImage.file}" alt="${option.name}">
+                        <div class="checkmark">✓</div>
+                        <div class="option-label" title="${option.vibe}">${option.name}</div>
+                    `;
+                    optionDiv.onclick = () => selectOption(optionDiv, option);
+                    aiOptions.appendChild(optionDiv);
+                });
+
+                // Store venue analysis for reference
+                if (decorationData.venue_analysis) {
+                    console.log('Venue Analysis:', decorationData.venue_analysis);
+                }
+            } else {
+                showError('No decoration options generated. Please try again.');
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('uploadArea').style.display = 'block';
+            alert('Error: ' + message);
         }
 
         function selectOption(element, imageData) {
@@ -714,52 +747,46 @@
                 return;
             }
 
-            // Simulate form submission
+            // Prepare order data
+            const orderData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                event_date: formData.get('event_date'),
+                notes: formData.get('notes'),
+                selected_option: selectedOption.name || selectedOption.title
+            };
+
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ Processing...';
 
-            setTimeout(() => {
-                // Create order data
-                const orderData = {
-                    name: formData.get('name'),
-                    email: formData.get('email'),
-                    phone: formData.get('phone'),
-                    event_date: formData.get('event_date'),
-                    notes: formData.get('notes'),
-                    selected_option: selectedOption.title,
-                    uploaded_image: uploadedImageData ? 'Yes' : 'No'
-                };
-
-                // Log order (in real scenario, this would be sent to a server)
-                console.log('Order Submitted:', orderData);
-
-                // Show success message
-                document.getElementById('orderForm').style.display = 'none';
-                document.querySelector('.button-group').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'block';
-
-                // Send data to Odoo (example webhook)
-                sendToOdoo(orderData);
-
+            // Send order to Odoo backend
+            fetch('/venue-decorator/submit-order', {
+                method: 'POST',
+                contentType: 'application/json',
+                body: JSON.stringify(orderData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    document.getElementById('orderForm').style.display = 'none';
+                    document.querySelector('.button-group').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    console.log('Order submitted to Odoo:', data);
+                } else {
+                    alert('Error: ' + (data.error || 'Failed to submit order'));
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '🛒 Proceed to Order';
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting order:', error);
+                alert('Error submitting order: ' + error.message);
                 submitBtn.disabled = false;
                 submitBtn.textContent = '🛒 Proceed to Order';
-            }, 1500);
-        }
-
-        function sendToOdoo(orderData) {
-            // This would send the order to your Odoo instance
-            // For now, we'll just log it
-            console.log('Would send to Odoo:', orderData);
-
-            // Example: You can set up a webhook URL in Odoo
-            // fetch('https://your-odoo-instance.com/api/orders', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify(orderData)
-            // }).catch(error => console.error('Error:', error));
+            });
         }
 
         function resetDecorator() {
