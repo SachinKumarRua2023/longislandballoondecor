@@ -40,6 +40,43 @@
             opacity: 0.9;
         }
 
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .tab-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -74,6 +111,229 @@
             font-weight: 600;
             color: #333;
             text-align: center;
+        }
+
+        /* AI Decorator Section */
+        .ai-decorator-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .upload-area:hover {
+            background: #f0f0ff;
+            border-color: #764ba2;
+        }
+
+        .upload-area.drag-over {
+            background: #f0f0ff;
+            border-color: #764ba2;
+            transform: scale(1.02);
+        }
+
+        .upload-area input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            color: #999;
+            font-size: 0.95em;
+        }
+
+        .ai-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .option-item {
+            border: 3px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .option-item:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .option-item.selected {
+            border-color: #764ba2;
+            box-shadow: 0 0 15px rgba(118, 75, 162, 0.4);
+        }
+
+        .option-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .option-label {
+            padding: 12px;
+            background: #f5f5f5;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: #764ba2;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .option-item.selected .checkmark {
+            opacity: 1;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .order-section {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 2px solid #ddd;
+        }
+
+        .order-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #ddd;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #ccc;
         }
 
         /* Modal for image preview */
@@ -115,6 +375,16 @@
             color: #ccc;
         }
 
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
         footer {
             text-align: center;
             color: white;
@@ -132,6 +402,18 @@
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 gap: 15px;
             }
+
+            .ai-options {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -142,8 +424,79 @@
             <p>Premium Balloon Decoration & Gift Baskets Gallery</p>
         </header>
 
-        <div class="gallery" id="gallery">
-            <!-- Gallery items will be populated by JavaScript -->
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('gallery')">📸 Gallery</button>
+            <button class="tab-button" onclick="switchTab('ai-decorator')">✨ AI Decorator</button>
+        </div>
+
+        <!-- Gallery Tab -->
+        <div id="gallery-tab" class="tab-content active">
+            <div class="gallery" id="gallery">
+                <!-- Gallery items will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- AI Decorator Tab -->
+        <div id="ai-decorator-tab" class="tab-content">
+            <div class="ai-decorator-section">
+                <h2 style="color: #333; margin-bottom: 20px;">🎨 AI Venue Decorator</h2>
+                <p style="color: #666; margin-bottom: 25px;">Upload a photo of your venue and our AI will generate 4 decoration options with balloons, banners, gifts, and greeting cards</p>
+
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
+                    <div class="upload-icon">📤</div>
+                    <div class="upload-text">Click to upload or drag & drop</div>
+                    <div class="upload-hint">PNG, JPG or GIF (max 10MB)</div>
+                    <input type="file" id="imageInput" accept="image/*">
+                </div>
+
+                <div id="loadingSection" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p style="color: #667eea; font-weight: 600;">✨ AI is decorating your venue...</p>
+                </div>
+
+                <div id="optionsSection" style="display: none;">
+                    <h3 style="color: #333; margin-bottom: 20px;">Select Your Favorite Decoration Option:</h3>
+                    <div class="ai-options" id="aiOptions">
+                        <!-- AI generated options will appear here -->
+                    </div>
+
+                    <div class="order-section">
+                        <h3 style="color: #333; margin-bottom: 10px;">📋 Order Details</h3>
+                        <form id="orderForm" class="order-form">
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address *</label>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Event Date *</label>
+                                <input type="text" name="event_date" placeholder="MM/DD/YYYY" required>
+                            </div>
+                            <div class="form-group" style="grid-column: 1 / -1;">
+                                <label>Additional Notes</label>
+                                <textarea name="notes" placeholder="Any special requests or additional details..."></textarea>
+                            </div>
+                        </form>
+
+                        <div class="button-group">
+                            <button class="btn-primary" onclick="submitOrder()" id="submitBtn">🛒 Proceed to Order</button>
+                            <button class="btn-secondary" onclick="resetDecorator()">↻ Start Over</button>
+                        </div>
+
+                        <div id="successMessage" style="display: none;">
+                            <div class="success-message">✅ Your order has been submitted! We'll contact you soon with details and pricing.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <footer>
@@ -210,6 +563,24 @@
             }
         ];
 
+        let selectedOption = null;
+        let uploadedImageData = null;
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
         // Populate gallery
         function populateGallery() {
             const gallery = document.getElementById('gallery');
@@ -243,6 +614,173 @@
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
+        }
+
+        // Upload area drag & drop
+        const uploadArea = document.getElementById('uploadArea');
+        const imageInput = document.getElementById('imageInput');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                imageInput.files = files;
+                handleImageUpload();
+            }
+        });
+
+        imageInput.addEventListener('change', handleImageUpload);
+
+        function handleImageUpload() {
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    uploadedImageData = e.target.result;
+                    generateDecoratedOptions();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function generateDecoratedOptions() {
+            document.getElementById('uploadArea').style.display = 'none';
+            document.getElementById('loadingSection').style.display = 'block';
+            document.getElementById('optionsSection').style.display = 'none';
+
+            // Simulate AI processing delay
+            setTimeout(() => {
+                displayDecoratedOptions();
+            }, 2500);
+        }
+
+        function displayDecoratedOptions() {
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('optionsSection').style.display = 'block';
+
+            const aiOptions = document.getElementById('aiOptions');
+            aiOptions.innerHTML = '';
+
+            // Select 4 random images from gallery to represent decorated options
+            const shuffled = [...images].sort(() => 0.5 - Math.random());
+            const selectedImages = shuffled.slice(0, 4);
+
+            selectedImages.forEach((image, index) => {
+                const option = document.createElement('div');
+                option.className = 'option-item';
+                option.innerHTML = `
+                    <img src="${image.file}" alt="Option ${index + 1}">
+                    <div class="checkmark">✓</div>
+                    <div class="option-label">Option ${index + 1}</div>
+                `;
+                option.onclick = () => selectOption(option, image);
+                aiOptions.appendChild(option);
+            });
+        }
+
+        function selectOption(element, imageData) {
+            // Remove previous selection
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Add selection to clicked element
+            element.classList.add('selected');
+            selectedOption = imageData;
+        }
+
+        function submitOrder() {
+            if (!selectedOption) {
+                alert('Please select a decoration option first!');
+                return;
+            }
+
+            const form = document.getElementById('orderForm');
+            const formData = new FormData(form);
+
+            // Validate form
+            if (!formData.get('name') || !formData.get('email') || !formData.get('phone') || !formData.get('event_date')) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Simulate form submission
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Processing...';
+
+            setTimeout(() => {
+                // Create order data
+                const orderData = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    event_date: formData.get('event_date'),
+                    notes: formData.get('notes'),
+                    selected_option: selectedOption.title,
+                    uploaded_image: uploadedImageData ? 'Yes' : 'No'
+                };
+
+                // Log order (in real scenario, this would be sent to a server)
+                console.log('Order Submitted:', orderData);
+
+                // Show success message
+                document.getElementById('orderForm').style.display = 'none';
+                document.querySelector('.button-group').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+
+                // Send data to Odoo (example webhook)
+                sendToOdoo(orderData);
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = '🛒 Proceed to Order';
+            }, 1500);
+        }
+
+        function sendToOdoo(orderData) {
+            // This would send the order to your Odoo instance
+            // For now, we'll just log it
+            console.log('Would send to Odoo:', orderData);
+
+            // Example: You can set up a webhook URL in Odoo
+            // fetch('https://your-odoo-instance.com/api/orders', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(orderData)
+            // }).catch(error => console.error('Error:', error));
+        }
+
+        function resetDecorator() {
+            // Reset all sections
+            document.getElementById('uploadArea').style.display = 'block';
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('optionsSection').style.display = 'none';
+            document.getElementById('imageInput').value = '';
+            selectedOption = null;
+            uploadedImageData = null;
+
+            // Reset form
+            document.getElementById('orderForm').reset();
+            document.getElementById('orderForm').style.display = 'grid';
+            document.querySelector('.button-group').style.display = 'flex';
+            document.getElementById('successMessage').style.display = 'none';
+
+            // Reset button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = false;
+            submitBtn.textContent = '🛒 Proceed to Order';
         }
 
         // Initialize
