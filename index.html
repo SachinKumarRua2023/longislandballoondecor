@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long Island Balloon Decor Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item-title {
+            padding: 15px;
+            font-size: 1em;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+        }
+
+        /* Modal for image preview */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 8px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .close:hover {
+            color: #ccc;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎈 Long Island Balloon Decor</h1>
+            <p>Premium Balloon Decoration & Gift Baskets Gallery</p>
+        </header>
+
+        <div class="gallery" id="gallery">
+            <!-- Gallery items will be populated by JavaScript -->
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Long Island Balloon Decor. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Modal for image preview -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        // Image data
+        const images = [
+            {
+                file: 'images/anniversary_balloon_decor.png',
+                title: 'Anniversary Balloon Decor'
+            },
+            {
+                file: 'images/birthday_balloon_decoration.png',
+                title: 'Birthday Balloon Decoration'
+            },
+            {
+                file: 'images/fathers_day_balloon.png',
+                title: 'Father\'s Day Balloon'
+            },
+            {
+                file: 'images/gift_basket_arrangement.png',
+                title: 'Gift Basket Arrangement'
+            },
+            {
+                file: 'images/gift_basket_luxury.png',
+                title: 'Luxury Gift Basket'
+            },
+            {
+                file: 'images/graduation_balloons_01.png',
+                title: 'Graduation Balloons'
+            },
+            {
+                file: 'images/greeting_card_design_01.png',
+                title: 'Greeting Card Design 1'
+            },
+            {
+                file: 'images/greeting_card_design_02.png',
+                title: 'Greeting Card Design 2'
+            },
+            {
+                file: 'images/print_mail_branding.png',
+                title: 'Print Mail Branding'
+            },
+            {
+                file: 'images/seasonal_decoration_bundle.png',
+                title: 'Seasonal Decoration Bundle'
+            },
+            {
+                file: 'images/thank_you_card_design.png',
+                title: 'Thank You Card Design'
+            },
+            {
+                file: 'images/wedding_balloon_centerpiece.png',
+                title: 'Wedding Balloon Centerpiece'
+            }
+        ];
+
+        // Populate gallery
+        function populateGallery() {
+            const gallery = document.getElementById('gallery');
+            images.forEach(image => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `
+                    <img src="${image.file}" alt="${image.title}" onclick="openModal('${image.file}')">
+                    <div class="gallery-item-title">${image.title}</div>
+                `;
+                gallery.appendChild(item);
+            });
+        }
+
+        // Modal functions
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside the image
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Initialize
+        populateGallery();
+    </script>
+</body>
+</html>
